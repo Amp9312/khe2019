@@ -10,19 +10,39 @@ public abstract class Character : MonoBehaviour
     [SerializeField]
     private float speed;
 
-    private Animator animator;
+    protected Animator animator;
 
     //The Player's direction
     protected Vector2 direction;
 
+    private Rigidbody2D myRigidBody;
+
+    protected Coroutine attackRoutine;
+
+    protected bool isAttacking = false;
+
+    public bool IsMoving
+    {
+        get
+        {
+            return direction.x != 0 || direction.y != 0;
+        }
+    }
+
     // Use this for initialization
     protected virtual void Start()
     {
+        myRigidBody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
     }
 
     // Update is marked as virtual, so that we can override it in the subclasses
     protected virtual void Update()
+    {
+        HandleLayers();
+    }
+
+    private void FixedUpdate()
     {
         Move();
     }
@@ -31,28 +51,53 @@ public abstract class Character : MonoBehaviour
     public void Move()
     {
         //Makes sure that the player moves
-        transform.Translate(direction * speed * Time.deltaTime);
-
-        if (direction.x != 0 || direction.y != 0)
-        {
-            //Animate's the Player's movement
-            AnimateMovement(direction);
-        }
-        else
-        {
-            animator.SetLayerWeight(1, 0);
-        }
-
+        //transform.Translate(direction * speed * Time.deltaTime); <--- old way of moving, inefficient
+        myRigidBody.velocity = direction.normalized  * speed;
 
     }
 
-    // Makes the player animate in the correct direction
-    /// <param name="direction"></param>
-    public void AnimateMovement(Vector2 direction)
+    public void HandleLayers()
     {
-        animator.SetLayerWeight(1, 1);
-        //Sets the animation parameter so that he faces the correct direction
-        animator.SetFloat("X", direction.x);
-        animator.SetFloat("Y", direction.y);
+        if (IsMoving)
+        {
+            ActivateLayer("Walk_Layer");
+            //Sets the animation parameter so that he faces the correct direction
+            animator.SetFloat("X", direction.x);
+            animator.SetFloat("Y", direction.y);
+
+            StopAttack();
+        }
+        else if (isAttacking)
+        {
+            ActivateLayer("Attack_Layer");
+        }
+        else
+        {
+            ActivateLayer("Idle_Layer");
+        }
+    }
+
+    public void ActivateLayer(string layerName)
+    {
+        for(int i = 0; i < animator.layerCount; i++)
+        {
+            animator.SetLayerWeight(i, 0);
+        }
+
+        animator.SetLayerWeight(animator.GetLayerIndex(layerName), 1);
+        
+    }
+
+    public void StopAttack()
+    {
+        if(attackRoutine != null)
+        {
+            StopCoroutine(attackRoutine);
+
+            isAttacking = false;
+
+            animator.SetBool("attack", isAttacking);
+        }
+
     }
 }

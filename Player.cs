@@ -66,5 +66,29 @@ public class Player : Character
         {
             direction += Vector2.right;
         }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if(!isAttacking && !IsMoving)
+            {
+                attackRoutine = StartCoroutine(Attack());
+            }
+        }
+    }
+
+    private IEnumerator Attack()
+    {
+        //if (!isAttacking && !IsMoving)
+        //{
+            isAttacking = true;
+
+            animator.SetBool("attack", isAttacking);
+
+            yield return new WaitForSeconds(1); //hard coded cast time
+
+            StopAttack();
+
+        //}
+
+        //Debug.Log("Done Casting");
     }
 }
