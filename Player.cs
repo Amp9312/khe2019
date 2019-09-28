@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,7 +10,7 @@ public class Player : Character
     private Stat health;
     [SerializeField]
     private Stat mana;
-  
+
     private float initHealth = 100;
     private float initMana = 50;
     // overriding the characters update function, so that we can execute our own functions
@@ -36,7 +36,7 @@ public class Player : Character
     {
         direction = Vector2.zero;
 
-        /*health bar debugging
+        //health bar debugging
         if (Input.GetKeyDown(KeyCode.I))
         {
             health.MyCurrentValue -= 10;
@@ -47,7 +47,7 @@ public class Player : Character
             health.MyCurrentValue += 10;
             mana.MyCurrentValue += 10;
         }
-        end of health bar debugging */
+        //end of health bar debugging 
 
 
         if (Input.GetKey(KeyCode.W)) //Moves up
@@ -56,7 +56,7 @@ public class Player : Character
         }
         if (Input.GetKey(KeyCode.A)) //Moves left
         {
-            direction += Vector2.left; 
+            direction += Vector2.left;
         }
         if (Input.GetKey(KeyCode.S)) //moves down
         {

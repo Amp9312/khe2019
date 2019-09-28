@@ -6,11 +6,13 @@ using UnityEngine.UI;
 public class Stat : MonoBehaviour
 {
     private Image content;
+    [SerializeField]
+    private Text statValue;
     private float currentFill;
     [SerializeField]
     private float lerpSpeed;
 
-    public float MyMaxValue{get; set;}
+    public float MyMaxValue { get; set; }
 
     private float currentValue;
 
@@ -18,15 +20,15 @@ public class Stat : MonoBehaviour
     {
         get
         {
-            return currentValue; 
+            return currentValue;
         }
         set
         {
-            if(value > MyMaxValue)
+            if (value > MyMaxValue)
             {
                 currentValue = MyMaxValue;
             }
-            else if(value < 0)
+            else if (value < 0)
             {
                 currentValue = 0;
             }
@@ -35,6 +37,8 @@ public class Stat : MonoBehaviour
                 currentValue = value;
             }
             currentFill = currentValue / MyMaxValue;
+
+            statValue.text = currentValue + "/" + MyMaxValue;
         }
     }
 
@@ -59,10 +63,10 @@ public class Stat : MonoBehaviour
 
     private void HandleBar()
     {
-        if(currentFill != content.fillAmount)
+        if (currentFill != content.fillAmount)
         {
             content.fillAmount = Mathf.Lerp(content.fillAmount, currentFill, Time.deltaTime * lerpSpeed);
         }
-        
+
     }
 }

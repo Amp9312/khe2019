@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -33,7 +33,7 @@ public abstract class Character : MonoBehaviour
         //Makes sure that the player moves
         transform.Translate(direction * speed * Time.deltaTime);
 
-        if(direction.x != 0 || direction.y != 0)
+        if (direction.x != 0 || direction.y != 0)
         {
             //Animate's the Player's movement
             AnimateMovement(direction);
