@@ -1,52 +1,129 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using UnityEngine;
 
-public class Spell : MonoBehaviour {
+[Serializable]
+public class Spell
+{
+    /// <summary>
+    /// The Spell's name
+    /// </summary>
+    [SerializeField]
+    private string name;
 
     /// <summary>
-    /// A reference to the spell's rigid body
+    /// The spell's damage
     /// </summary>
-    private Rigidbody2D myRigidBody;
-    
+    [SerializeField]
+    private int damage;
+
     /// <summary>
-    /// The spell's movement speed
+    /// The spell's icon
+    /// </summary>
+    [SerializeField]
+    private Sprite icon;
+
+    /// <summary>
+    /// The spell's speed
     /// </summary>
     [SerializeField]
     private float speed;
 
     /// <summary>
-    /// The spells target
+    /// The spell's cast time
     /// </summary>
-    private Transform target;
+    [SerializeField]
+    private float castTime;
 
-	// Use this for initialization
-	void Start ()
+    /// <summary>
+    /// The spell's prefab
+    /// </summary>
+    [SerializeField]
+    private GameObject spellPrefab;
+
+    /// <summary>
+    /// The spell's color
+    /// </summary>
+    [SerializeField]
+    private Color barColor;
+
+    /// <summary>
+    /// Property for accessing the spell's name
+    /// </summary>
+    public string MyName
     {
-        //Creates a reference to the spell's rigidbody
-        myRigidBody = GetComponent<Rigidbody2D>();
+        get
+        {
+            return name;
+        }
+    }
 
-        ///JUST FOR TESTING AND DEBUGGING
-        target = GameObject.Find("Target").transform;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
-    private void FixedUpdate()
+    /// <summary>
+    /// Property for reading the damage
+    /// </summary>
+    public int MyDamage
     {
-        //Calculates the spells direction
-        Vector2 direction = target.position - transform.position;
+        get
+        {
+            return damage;
+        }
 
-        //Moves the spell by using the rigid body
-        myRigidBody.velocity = direction.normalized * speed;
+    }
 
-        //Calculates the rotation angle
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+    /// <summary>
+    /// Property for reading the icon
+    /// </summary>
+    public Sprite MyIcon
+    {
+        get
+        {
+            return icon;
+        }
+    }
 
-        //Rotates the spell towards the target
-        transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+    /// <summary>
+    /// Property for reading the speed
+    /// </summary>
+    public float MySpeed
+    {
+        get
+        {
+            return speed;
+        }
+    }
+
+    /// <summary>
+    /// Property for reading the cast time
+    /// </summary>
+    public float MyCastTime
+    {
+        get
+        {
+            return castTime;
+        }
+    }
+
+    /// <summary>
+    /// Property for reading the spell's prefab
+    /// </summary>
+    public GameObject MySpellPrefab
+    {
+        get
+        {
+            return spellPrefab;
+        }
+    }
+
+    /// <summary>
+    /// Property for reading the color
+    /// </summary>
+    public Color MyBarColor
+    {
+        get
+        {
+            return barColor;
+        }
     }
 }
