@@ -67,8 +67,12 @@ public class Stat : MonoBehaviour
             //Calculates the currentFill, so that we can lerp
             currentFill = currentValue / MyMaxValue;
 
-            //Makes sure that we update the value text
-            statValue.text = currentValue + " / " + MyMaxValue;
+            if (statValue != null)
+            {
+                //Makes sure that we update the value text
+                statValue.text = currentValue + " / " + MyMaxValue;
+            }
+
         }
     }
 
@@ -96,8 +100,14 @@ public class Stat : MonoBehaviour
     /// <param name="maxValue">The max value of the bar</param>
     public void Initialize(float currentValue, float maxValue)
     {
+        if (content == null)
+        {
+            content = GetComponent<Image>();
+        }
+
         MyMaxValue = maxValue;
         MyCurrentValue = currentValue;
+        content.fillAmount = MyCurrentValue / MyMaxValue;
     }
 
     /// <summary>

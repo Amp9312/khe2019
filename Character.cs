@@ -5,6 +5,8 @@ using UnityEngine;
 /// <summary>
 /// This is an abstract class that all characters needs to inherit from
 /// </summary>
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Animator))]
 public abstract class Character : MonoBehaviour
 {
 
@@ -38,7 +40,24 @@ public abstract class Character : MonoBehaviour
     /// A reference to the attack coroutine
     /// </summary>
     protected Coroutine attackRoutine;
-    
+
+    [SerializeField]
+    protected Transform hitBox;
+
+    [SerializeField]
+    protected Stat health;
+
+    public Stat MyHealth
+    {
+        get { return health; }
+    }
+
+    /// <summary>
+    /// The character's initialHealth
+    /// </summary>
+    [SerializeField]
+    private float initHealth;
+
     /// <summary>
     /// Indicates if character is moving or not
     /// </summary>
@@ -52,6 +71,8 @@ public abstract class Character : MonoBehaviour
 
     protected virtual void Start()
     {
+        health.Initialize(initHealth, initHealth);
+
         //Makes a reference to the rigidbody2D
         myRigidbody = GetComponent<Rigidbody2D>();
 
@@ -126,7 +147,7 @@ public abstract class Character : MonoBehaviour
     /// <summary>
     /// Stops the attack
     /// </summary>
-    public void StopAttack()
+    public virtual void StopAttack()
     {
         isAttacking = false; //Makes sure that we are not attacking
 
@@ -135,9 +156,17 @@ public abstract class Character : MonoBehaviour
         if (attackRoutine != null) //Checks if we have a reference to an co routine
         {
             StopCoroutine(attackRoutine);
-
         }
-
-
     }
+
+    public virtual void TakeDamage(float damage)
+    {
+        health.MyCurrentValue -= damage;
+
+        if (health.MyCurrentValue <= 0)
+        {
+            myAnimator.SetTrigger("die");
+        }
+    }
+
 }
