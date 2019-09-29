@@ -75,25 +75,46 @@ public class Player : Character
         {
             direction += Vector2.up;
         }
+        if (Input.GetButton("DPAD_v.up")) //Moves Up
+        {
+            direction+=Vector2.up;
+        }
+
+
         if (Input.GetKey(KeyCode.A)) //Moves left
         {
             direction += Vector2.left; //Moves down
         }
+        if (Input.GetButton("DPAD_h.left") // Moves left
+        {
+            direction += Vector2.left;
+        }
+
         if (Input.GetKey(KeyCode.S))
         {
             direction += Vector2.down;
+        }
+        if (Input.Getbutton("DPAD_v.down")) //Moves Down
+        {
+            direction +=Vector2.down;
         }
         if (Input.GetKey(KeyCode.D)) //Moves right
         {
             direction += Vector2.right;
         }
+
+        if (Input.GetButton("DPAD_h.right") // Moves right
+        {
+            direction += Vector2.right;
+        }
+
         if (Input.GetKeyDown(KeyCode.Space)) //Makes the player attack
         {
             if (!isAttacking && !IsMoving) //Chcks if we are able to attack
             {
                 attackRoutine = StartCoroutine(Attack());
             }
-            
+
         }
     }
 
